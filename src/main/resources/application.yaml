@@ -2,7 +2,17 @@ spring:
   jpa.hibernate.ddl-auto: update
   datasource.url: jdbc:hsqldb:mem:testdb;DB_CLOSE_DELAY=-1
   cloud.stream.bindings.receiveSensorData-in-0.destination: sensor-data
+  cloud.stream.binders:
+    sensor-data:
+      type: rabbit
+      environment:
+        spring:
+          rabbitmq:
+            host: ${vcap.services.rabbitmq.credentials.host}
+            port: ${vcap.services.rabbitmq.credentials.port}
+            username: ${vcap.services.rabbitmq.credentials.username}
+            password: ${vcap.services.rabbitmq.credentials.password}
 
 management.endpoints.web.exposure.include: "*"
 
-title: Tanzu Sensor Database
+title: CF Pushed Sensor Database
